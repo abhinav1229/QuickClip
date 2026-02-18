@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            width: 420px;
+            font-family: 'Ubuntu', sans-serif;
+            font-family: "Google Sans", sans-serif;
+            padding: 20px;
+            background-color: #0f1115;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        h3 {
+            color: #e6e9ef;
+            margin-top: 0;
+            font-weight: 700;
+        }
+
+        /* Modern Search Bar UI (Preserved) */
+        #search {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 2px solid #2a3040;
+            border-radius: 10px;
+            font-family: 'Ubuntu', sans-serif;
+            font-family: "Google Sans", sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            background: #161a22;
+            color: #e6e9ef;
+        }
+
+        #search::placeholder {
+            color: #9aa4bf;
+        }
+
+        #search:focus {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 8px rgba(108, 92, 231, 0.25);
+        }
+
+        .clip {
+            background: #161a22;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: none;
+            border: 1px solid #2a3040;
+        }
+
+        .site-link {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #7c7cff;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        .site-link:hover {
+            text-decoration: underline;
+        }
+
+        .content-preview {
+            font-size: 15px;
+            color: #cfd5e7;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Ubuntu', sans-serif;
+            font-family: "Google Sans", sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        .copy-btn {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .view-btn {
+            background: #00b894;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #883737;
+            color: #ff7675;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #9aa4bf;
+            border-top: 1px solid #2a3040;
+            padding-top: 10px;
+        }
+
+        .btn-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .more-btn {
+            font-size: 14px;
+            padding: 4px 8px;
+            background: #2c3547;
+            color: #9aa4bf;
+        }
+
+        .options-menu {
+            margin-top: 6px;
+            border: 1px solid #2a3040;
+            border-radius: 6px;
+            padding: 6px;
+            background: #1e2330;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100px;
+            margin: auto;
+            position: absolute;
+            right: 25px;
+            margin-top: 7px;
+        }
+
+        .copy-btn:disabled {
+            background: #2a3040;
+            color: #9aa4bf;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        input#password-input:focus {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 8px rgba(108, 92, 231, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <h3>QuickClip - All Copied Snippets</h3>
+    <input type="text" id="search" placeholder="Search your saved text...">
+    
+    <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <button id="export-btn" style="flex:1;">Export</button>
+        <button id="import-btn" style="flex:1;">Import</button>
+        <button id="delete-all-btn" style="flex:1; background:#733030; color:#ff7675;">
+            Delete All
+        </button>
+    </div>
+    <input type="file" id="import-file" accept="application/json" style="display:none" />
+
+
+    <div id="list"></div>
+
+    <div id="recovery-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999;">
+        <div style="
+            background:#111;
+            color:#fff;
+            max-width:420px;
+            margin:10% auto;
+            padding:20px;
+            border-radius:8px;
+            font-family:monospace;
+        ">
+            <h3>⚠️ Save your Recovery Key</h3>
+
+            <textarea id="recovery-key" readonly style="
+                width:100%;
+                height:70px;
+                font-size:13px;
+                margin:10px 0;
+                resize:none;
+            "></textarea>
+
+            <button id="copy-recovery">Copy</button>
+            <button id="confirm-recovery">I have saved it</button>
+
+            <p style="font-size:12px; opacity:0.8; margin-top:10px;">
+                This key will NOT be shown again.
+            </p>
+        </div>
+    </div>
+
+    <div id="password-modal" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+">
+        <div style="
+        background:#161a22;
+        color:#e6e9ef;
+        padding:20px;
+        border-radius:10px;
+        width:260px;
+        font-family:'Ubuntu', sans-serif;
+        border:1px solid #2a3040;
+    ">
+            <h4 style="margin: '0 0 10px'; font-size: 17px; font-family:'Google Sans', sans-serif ;">Enter Password</h4>
+
+            <input id="password-input" type="password" placeholder="- - - -" style="
+                width:100%;
+                padding:10px;
+                border-radius:6px;
+                border:1px solid #2a3040;
+                background:#0f1115;
+                color:#e6e9ef;
+                box-sizing:border-box;
+            " />
+
+            <div style="display:flex; gap:10px; margin-top:14px;">
+                <button id="password-cancel" style="flex:1;">Cancel</button>
+                <button id="password-ok" style="flex:1; background:#6c5ce7; color:white;">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer">
+        Made by <strong><a href="https://developerabhinav.netlify.app/" style="color: #82a0f3; text-decoration: none;">Abhinav</a></strong> | v1.0.0(1)<br>
+        Released on 16th Feb, 2026
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>QuickClip Dashboard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f1115;
+            margin: 0;
+            padding: 30px;
+            color: #e6e9ef;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #161a22;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: none;
+            border: 1px solid #2a3040;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 26px;
+        }
+
+        .meta {
+            font-size: 13px;
+            color: #9aa4bf;
+            margin-bottom: 20px;
+        }
+
+        .meta a {
+            color: #7c7cff;
+            text-decoration: none;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .edit-btn {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .save-btn {
+            background: #00b894;
+            color: white;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            resize: vertical;
+            padding: 14px;
+            font-size: 17px;
+            line-height: 1.6;
+            border-radius: 8px;
+            border: 1px solid #2a3040;
+            font-family: 'Ubuntu', sans-serif;
+            font-family: "Google Sans", sans-serif;
+            box-sizing: border-box;
+            background: #0f1115;
+            color: #e6e9ef;
+        }
+
+        textarea:focus {
+            border: 1px solid #6c5ce7;
+        }
+
+        textarea[readonly] {
+            background: #11151c;
+            color: #9aa4bf;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #7c7cff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <a class="back-link" onclick="window.close()">Close Tab</a>
+
+        <h1 id="title"></h1>
+
+        <div class="meta">
+            Source:
+            <a id="link" target="_blank"></a>
+            | Saved on:
+            <span id="date"></span>
+        </div>
+
+        <div class="toolbar">
+            <button id="edit-btn" class="edit-btn">Edit</button>
+            <button id="save-btn" class="save-btn" style="display:none;">Save</button>
+        </div>
+
+        <textarea id="text" readonly></textarea>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+
+
+</html>
